@@ -9,7 +9,7 @@ const auth = (req, res, next) => {
   if (!tokenString) {
     return res
       .status(UNAUTHORIZED)
-      .json({ message: `Ошибка авторизации: ${tokenString}` });
+      .json({ message: `Ошибка авторизации: токен ${tokenString}` });
   }
 
   if (tokenString.startsWith('token=')) {

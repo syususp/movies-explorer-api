@@ -4,12 +4,13 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+// eslint-disable-next-line object-curly-newline
 const { celebrate, Joi, Segments, errors } = require('celebrate');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const routes = require('./routes/index');
 const { NOT_FOUND } = require('./constants/errorStatuses');
-const { login, createUser } = require('./controllers/users');
+const { login, createUser } = require('./controllers/user');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -17,10 +18,10 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { NODE_ENV, DB_URL } = process.env;
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 mongoose
@@ -58,13 +59,6 @@ app.post(
   login,
 );
 
-const linkValidation = (value, helpers) => {
-  if (value.startsWith('link:')) {
-    return helpers.error('any.invalid');
-  }
-  return value;
-};
-
 app.post(
   '/signup',
   celebrate({
@@ -73,8 +67,6 @@ app.post(
         name: Joi.string().min(2).max(30),
         email: Joi.string().email().required(),
         password: Joi.string().required(),
-        avatar: Joi.string().custom(linkValidation),
-        about: Joi.string().min(2).max(30),
       })
       .unknown(true),
   }),
