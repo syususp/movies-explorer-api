@@ -86,7 +86,6 @@ exports.getUserInfo = async (req, res, next) => {
 
 exports.updateUserInfo = async (req, res, next) => {
   const { name, email } = req.body;
-  console.log(req);
   const userId = req.user._id;
 
   try {

@@ -4,10 +4,14 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// eslint-disable-next-line object-curly-newline
-const { celebrate, Joi, Segments, errors } = require('celebrate');
+const {
+  celebrate,
+  Joi,
+  Segments,
+  errors,
+} = require('celebrate');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const limiter = require('./middlewares/limiter');
 const routes = require('./routes/index');
 const { NOT_FOUND } = require('./constants/errorStatuses');
 const { login, createUser } = require('./controllers/user');
@@ -16,13 +20,6 @@ const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { NODE_ENV, DB_URL } = process.env;
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
 
 mongoose
   .connect(

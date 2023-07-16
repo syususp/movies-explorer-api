@@ -1,1 +1,7 @@
-# movies-explorer-api
+Репозиторий для приложения проекта Movies-Explorer, который на текущем этапе включает бэкенд часть приложения со следующими возможностями: авторизации и регистрации пользователей, операции с фильмами и пользователями.
+
+Адрес репозитория: https://github.com/syususp/movies-explorer-api
+
+IP-адрес 62.84.125.19
+
+Backend https://api.syususp.nomoredomains.xyz
