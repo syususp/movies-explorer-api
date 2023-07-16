@@ -85,11 +85,17 @@ exports.getUserInfo = async (req, res, next) => {
 };
 
 exports.updateUserInfo = async (req, res, next) => {
-  const { userId } = req.params;
+  const { name, email } = req.body;
+  console.log(req);
+  const userId = req.user._id;
 
   try {
-    const user = await User.findById(userId).orFail();
-    return res.json(user);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, email },
+      { new: true, runValidators: true },
+    );
+    return res.json(updatedUser);
   } catch (error) {
     return next(error);
   }

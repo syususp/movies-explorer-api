@@ -18,7 +18,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   if (err instanceof mongoose.Error.DocumentNotFoundError) {
-    return res.status(NOT_FOUND).json({ message: 'Ресурс не найден' });
+    return res.status(NOT_FOUND).json({ message: 'Ресурс не найден', err });
   }
 
   if (err.code === 11000) {
