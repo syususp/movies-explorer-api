@@ -11,9 +11,35 @@ exports.getSavedMovies = async (req, res, next) => {
 };
 
 exports.createMovie = async (req, res, next) => {
-  const { name, link } = req.body;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+  } = req.body;
+
   try {
-    const movie = await Movie.create({ name, link, owner: req.user._id });
+    const movie = await Movie.create({
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      thumbnail,
+      movieId,
+      nameRU,
+      nameEN,
+      owner: req.user._id,
+    });
     return res.status(CREATED).json(movie);
   } catch (error) {
     return next(error);
@@ -25,7 +51,7 @@ exports.deleteMovie = async (req, res, next) => {
   const { _id } = req.user;
 
   try {
-    const movie = await Movie.findById(movieId);
+    const movie = await Movie.findOne({ movieId });
 
     if (!movie) {
       return res.status(NOT_FOUND).json({ message: 'Фильм не найден' });
@@ -37,7 +63,7 @@ exports.deleteMovie = async (req, res, next) => {
         .json({ message: 'Нет прав на удаление фильма' });
     }
 
-    await Movie.findByIdAndDelete(movieId);
+    await Movie.findOneAndDelete(movieId);
 
     return res.json({ message: 'Фильм удалён' });
   } catch (error) {

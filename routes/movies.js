@@ -50,13 +50,14 @@ router.post(
 );
 
 router.delete(
-  '/:id',
+  '/:movieId',
   celebrate({
     [Segments.HEADERS]: Joi.object({
       authorization: Joi.string().required(),
     }).unknown(),
     [Segments.PARAMS]: Joi.object({
-      id: Joi.string().hex().length(24).required(),
+      // id: Joi.string().hex().length(24).required(),
+      movieId: Joi.string().required(),
     }),
   }),
   deleteMovie,
