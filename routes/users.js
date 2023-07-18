@@ -17,9 +17,6 @@ router.get(
 router.patch(
   '/me',
   celebrate({
-    [Segments.HEADERS]: Joi.object({
-      authorization: Joi.string().required(),
-    }).unknown(),
     [Segments.BODY]: Joi.object({
       email: Joi.string().email().required(),
       name: Joi.string().min(2).max(30).required(),

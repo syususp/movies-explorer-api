@@ -4,7 +4,7 @@ const { UNAUTHORIZED } = require('../constants/errorStatuses');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const auth = (req, res, next) => {
-  const tokenString = req.headers.cookie || req.headers.authorization;
+  const tokenString = req.headers.cookie; // || req.headers.authorization;
   let token;
   if (!tokenString) {
     return res

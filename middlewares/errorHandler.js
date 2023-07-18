@@ -3,7 +3,6 @@ const {
   SERVER_ERROR,
   NOT_FOUND,
   BAD_REQUEST,
-  UNAUTHORIZED,
   CONFLICT,
 } = require('../constants/errorStatuses');
 
@@ -27,9 +26,9 @@ const errorHandler = (err, req, res, next) => {
       .json({ message: 'Данный email уже зарегистрирован' });
   }
 
-  if (err.code === 401) {
-    return res.status(UNAUTHORIZED).json({ message: 'Недействительный токен' });
-  }
+  // if (err.code === 401) {
+  //   return res.status(UNAUTHORIZED).json({ message: 'Недействительный токен' });
+  // }
 
   return res.status(SERVER_ERROR).json({ message: `На сервере произошла ошибка: ${err.message}` });
 };

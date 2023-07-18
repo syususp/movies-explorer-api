@@ -8,12 +8,7 @@ const {
 
 const router = express.Router();
 
-const linkValidation = (value, helpers) => {
-  if (value.startsWith('link:')) {
-    return helpers.error('any.invalid');
-  }
-  return value;
-};
+const linkRegex = /^https?:\/\/(w{3}\.)?[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+$/;
 
 router.get(
   '/',
@@ -37,9 +32,9 @@ router.post(
       duration: Joi.number().required(),
       year: Joi.string().required(),
       description: Joi.string().required(),
-      image: Joi.string().required().custom(linkValidation),
-      trailerLink: Joi.string().required().custom(linkValidation),
-      thumbnail: Joi.string().required().custom(linkValidation),
+      image: Joi.string().required().pattern(linkRegex),
+      trailerLink: Joi.string().required().pattern(linkRegex),
+      thumbnail: Joi.string().required().pattern(linkRegex),
       owner: Joi.string().required(),
       movieId: Joi.number().required(),
       nameRU: Joi.string().required(),
@@ -56,8 +51,7 @@ router.delete(
       authorization: Joi.string().required(),
     }).unknown(),
     [Segments.PARAMS]: Joi.object({
-      // id: Joi.string().hex().length(24).required(),
-      movieId: Joi.string().required(),
+      movieId: Joi.string().hex().length(24).required(),
     }),
   }),
   deleteMovie,

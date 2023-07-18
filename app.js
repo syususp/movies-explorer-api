@@ -76,6 +76,11 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
+app.post('/signout', (req, res) => {
+  // res.cookie('token', '').json({ message: 'Выход из учётной записи успешен' });
+  res.clearCookie('token').json({ message: 'Выход из учётной записи успешен' });
+});
+
 app.use((req, res) => {
   res.status(NOT_FOUND).json({ message: 'Ошибка запроса' });
 });
