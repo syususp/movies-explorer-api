@@ -10,15 +10,7 @@ const router = express.Router();
 
 const linkRegex = /^https?:\/\/(w{3}\.)?[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+$/;
 
-router.get(
-  '/',
-  celebrate({
-    [Segments.HEADERS]: Joi.object({
-      authorization: Joi.string().required(),
-    }).unknown(),
-  }),
-  getSavedMovies,
-);
+router.get('/', getSavedMovies);
 
 router.post(
   '/',
