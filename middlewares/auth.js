@@ -20,7 +20,7 @@ const auth = (req, res, next) => {
   } else {
     return res
       .status(UNAUTHORIZED)
-      .json({ message: `Ошибка авторизации: неверный формат токена` });
+      .json({ message: 'Ошибка авторизации: неверный формат токена' });
   }
 
   try {
