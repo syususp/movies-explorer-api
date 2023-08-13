@@ -4,8 +4,9 @@ const { UNAUTHORIZED } = require('../constants/errorStatuses');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const auth = (req, res, next) => {
-  const tokenString = req.headers.cookie; // || req.headers.authorization;
+  const tokenString = req.headers.cookie || req.headers.authorization;
   let token;
+
   if (!tokenString) {
     return res
       .status(UNAUTHORIZED)
@@ -14,11 +15,14 @@ const auth = (req, res, next) => {
 
   if (tokenString.startsWith('token=')) {
     token = tokenString.replace('token=', '');
+  } else if (tokenString.startsWith('Bearer ')) {
+    token = tokenString.replace('Bearer ', '');
+  } else {
+    return res
+      .status(UNAUTHORIZED)
+      .json({ message: `Ошибка авторизации: неверный формат токена` });
   }
 
-  if (tokenString.startsWith('Bearer ')) {
-    token = tokenString.replace('Bearer ', '');
-  }
   try {
     const payload = jwt.verify(
       token,
